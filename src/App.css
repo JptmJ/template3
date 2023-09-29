@@ -1,57 +1,86 @@
-* {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
-}
-
-.container {
-  padding: 50px;
-  margin: 50px;
+.App {
   display: flex;
-  justify-content: center;
+  flex-direction: column;
   align-items: center;
-  text-align: center;
+  margin-top: 50px;
 }
 
-.container form {
-  border: 1px solid black;
-  border-radius: 15px;
-  padding: 50px;
+.form-header {
+  color: purple;
+  font-size: 24px;
+  margin-bottom: 20px;
 }
 
-.container form div {
-  margin: 25px;
+.auth-form {
+  width: 30%;
+  padding: 20px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  background-color: #f9f9f9;
+  box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.2);
 }
 
-.container form div input {
-  width: 100%;
-  padding: 0.375rem 0.75rem;
-  font-size: 1rem;
-  line-height: 1.5;
-  color: #495057;
-  background-color: #fff;
-  background-clip: padding-box;
-  border: 1px solid #ced4da;
-  border-radius: 0.25rem;
-  transition: border-color .15s ease-in-out, box-shadow .15s ease-in-out;
+label {
+  display: block;
+  margin-bottom: 5px;
+  color: purple;
 }
 
-.container form div span {
-  color: red;
-  padding-top: -25px;
-}
-
-.container form button {
+input {
+  width: 95%;
   padding: 10px;
-  border: 1px solid saddlebrown;
-  border-radius: 10px;
-  background-color: burlywood;
-  color: white;
-  width: 100px;
+  margin-bottom: 15px;
+  border: 1px solid #ccc;
+  border-radius: 3px;
 }
 
-.container form button:hover {
-  transform: translateY(5px);
-  transition: all .3s ease-in-out;
+.auth-button {
+  width: 100%;
+  padding: 10px;
+  background-color: purple;
+  color: white;
+  border: none;
+  border-radius: 3px;
+  cursor: pointer;
+}
 
+.auth-button:hover {
+  background-color: #8a2be2;
+}
+
+.toggle-text {
+  margin-top: 10px;
+  text-align: center;
+  color: purple;
+}
+
+.toggle-button {
+  background: none;
+  border: none;
+  color: purple;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+.toggle-button:hover {
+  text-decoration: none;
+  transform-box: fill-box;
+  background-color: #8a2be2;
+  transition: all .3s ease-in-out;
+  color: white;
+}
+
+.button {
+  border-radius: 10px;
+  padding: 15px;
+}
+
+.button-prop {
+  width: 100%;
+  padding-top: 20px;
+}
+
+.error {
+  color: red;
+  margin-top: -15px;
 }

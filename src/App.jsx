@@ -1,107 +1,155 @@
-// Import necessary modules and components
 import React, { useState } from 'react';
 import './App.css';
 
-// Define the main App component
 function App() {
-  // Initialize state variables using the useState hook
+  // State for form data
   const [formData, setFormData] = useState({
-    username: '',
+    name: '',
+    email: '',
+    mobile: '',
     password: '',
-    confirmpassword: ''
+    conpassword: '',
   });
 
+  // State for form validation errors
   const [errors, setErrors] = useState({});
 
-  // Define a handleChange function to update form data when input values change
-  const handleChange = (e) => {
-    const { name, value } = e.target;
-    setFormData((prevData) => ({
-      ...prevData,
-      [name]: value
-    }));
-  };
-
-  // Define a handleSubmit function to handle form submission
+  // Function to handle form submission
   const handleSubmit = (e) => {
     e.preventDefault();
 
-    // Initialize an object to store validation errors
+    // Object to store validation errors
     const validationErrors = {};
 
-    // Validate the username field
-    if (!formData.username.trim()) {
-      validationErrors.username = 'Username is required';
+    // Validation for name field
+    if (!formData.name.trim()) {
+      validationErrors.name = 'Name Must Be Filled Out';
     }
 
-    // Validate the password field
+    // Validation for email field
+    if (!formData.email.trim()) {
+      validationErrors.email = 'Please Enter Email Address';
+    } else if (!formData.email.match(/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i)) {
+      validationErrors.email = 'Please Enter Valid Email Address';
+    }
+
+    // Validation for mobile field
+    if (!formData.mobile.trim()) {
+      validationErrors.mobile = 'Please Enter Mobile Number';
+    } else if (formData.mobile.length < 10) {
+      validationErrors.mobile = 'Please Enter Valid Mobile Number';
+    }
+
+    // Validation for password field
     if (!formData.password.trim()) {
-      validationErrors.password = 'Password is required';
+      validationErrors.password = 'Please Enter Password';
     } else if (formData.password.length < 6) {
       validationErrors.password = 'Password must be more than 6 characters';
     }
 
-    // Validate the confirm password field
-    if (!formData.confirmpassword.trim()) {
-      validationErrors.confirmpassword = 'Confirm Password is required';
-    }
-    else if (Object.keys(validationErrors).length === 0) {
-      alert('Form submitted successfully');
+    // Validation for confirm password field
+    if (!formData.conpassword.trim()) {
+      validationErrors.conpassword = 'Confirm Password is required';
+    } else if (formData.password.trim() !== formData.conpassword.trim()) {
+      validationErrors.conpassword = 'Passwords do not match';
     }
 
-    // Set the validation errors in the state
+    // Set the validation errors in state
     setErrors(validationErrors);
 
-    // Check if Confirm Password is empty and if there are no validation errors
-    if (!formData.confirmpassword.trim() && Object.keys(validationErrors).length === 0) {
+    // If there are no validation errors, display a success message
+    if (Object.keys(validationErrors).length === 0) {
       alert('Form submitted successfully');
     }
   };
 
-  // Render the form with input fields and error messages
+  // Function to handle input changes and update form data
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setFormData((prevData) => ({
+      ...prevData,
+      [name]: value,
+    }));
+  };
+
+  // State for toggling between Sign Up and Log In
+  const [isSignUp, setIsSignUp] = useState(true);
+
+  // Function to toggle between Sign Up and Log In
+  const toggleForm = () => {
+    setIsSignUp(!isSignUp);
+
+    // Clear form data and errors when switching between Sign Up and Log In
+    setFormData({
+      name: '',
+      email: '',
+      mobile: '',
+      password: '',
+      conpassword: '',
+    });
+    setErrors({});
+  };
+
   return (
-    <div className="container">
-      <form onSubmit={handleSubmit}>
-        <h2>Login Form</h2>
-        <hr />
+    <div className="App">
+      <form action="#" className="auth-form" onSubmit={handleSubmit}>
+        <h1 className="form-header">{isSignUp ? 'Sign Up Here' : 'Log In Here'}</h1>
+
+        {/* Render name input and error */}
+        {isSignUp && (
+          <div>
+            <label htmlFor="name">Name:</label>
+            <input onChange={handleChange} type="text" id="name" name="name" value={formData.name} />
+            {errors.name && <p className="error">{errors.name}</p>}
+          </div>
+        )}
+
+        {/* Render email input and error */}
         <div>
-          <label>Username : </label>
-          <input
-            type="text"
-            name="username"
-            placeholder="Enter Username"
-            onChange={handleChange}
-          />
-          <br />
-          {errors.username && <span>{errors.username}</span>}
+          <label htmlFor="email">Email:</label>
+          <input onChange={handleChange} type="email" id="email" name="email" value={formData.email} />
+          {errors.email && <p className="error">{errors.email}</p>}
         </div>
+
+        {/* Render mobile input and error */}
+        {isSignUp && (
+          <div>
+            <label htmlFor="mobile">Mobile:</label>
+            <input onChange={handleChange} type="text" id="mobile" name="mobile" value={formData.mobile} />
+            {errors.mobile && <p className="error">{errors.mobile}</p>}
+          </div>
+        )}
+
+        {/* Render password input and error */}
         <div>
-          <label>Password : </label>
-          <input
-            type="password"
-            name="password"
-            placeholder="Enter Password"
-            onChange={handleChange}
-          />
-          <br />
-          {errors.password && <span>{errors.password}</span>}
+          <label htmlFor="password">Password:</label>
+          <input onChange={handleChange} type="password" id="password" name="password" value={formData.password} />
+          {errors.password && <p className="error">{errors.password}</p>}
         </div>
-        <div>
-          <label>Confirm Password : </label>
-          <input
-            type="password"
-            name="confirmpassword"
-            placeholder="Enter Confirm Password"
-            onChange={handleChange}
-          />
-          <br />
-          {errors.confirmpassword && <span>{errors.confirmpassword}</span>}
+
+        {/* Render confirm password input and error */}
+        {isSignUp && (
+          <div>
+            <label htmlFor="conpassword">Confirm Password:</label>
+            <input onChange={handleChange} type="password" id="conpassword" name="conpassword" value={formData.conpassword} />
+            {errors.conpassword && <p className="error">{errors.conpassword}</p>}
+          </div>
+        )}
+
+        {/* Submit button */}
+        <button type="submit" className="auth-button">
+          {isSignUp ? 'Sign Up' : 'Log In'}
+        </button>
+
+        {/* Toggle button to switch between Sign Up and Log In */}
+        <div className="button-prop">
+          <button onClick={toggleForm} className="button toggle-button">
+            {isSignUp ? 'Login to existing account...' : 'Create new account...'}
+          </button>
         </div>
-        <button type="submit">Submit</button>
       </form>
     </div>
   );
 }
 
-// Export the App component as the default export
 export default App;
