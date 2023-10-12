@@ -14,6 +14,15 @@ function App() {
   // State for form validation errors
   const [errors, setErrors] = useState({});
 
+  // State for toggling between Sign Up and Log In
+  const [isSignUp, setIsSignUp] = useState(true);
+
+  // Determine the initial button class based on isSignUp
+  const initialButtonClass = isSignUp ? 'auth-button' : 'disabled-button';
+
+  // Set the button class based on the presence of errors
+  const buttonClass = Object.keys(errors).length === 0 ? 'auth-button' : 'disabled-button';
+
   // Function to handle form submission
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -54,26 +63,37 @@ function App() {
       validationErrors.conpassword = 'Passwords do not match';
     }
 
-    // Set the validation errors in state
-    setErrors(validationErrors);
-
-    // If there are no validation errors, display a success message
-    if (Object.keys(validationErrors).length === 0) {
+    // Check if there are any validation errors
+    if (Object.keys(validationErrors).length > 0) {
+      // Display the alert for validation errors
+      alert("Please Fill all the input fields correctly");
+    } else {
+      // If there are no validation errors, display a success message
       alert('Form submitted successfully');
     }
+
+    // Set the validation errors in state
+    setErrors(validationErrors);
   };
+
 
   // Function to handle input changes and update form data
   const handleChange = (e) => {
     const { name, value } = e.target;
+
+    // Clear the error for the field being updated
+    setErrors((prevErrors) => ({
+      ...prevErrors,
+      [name]: undefined,
+    }));
+
     setFormData((prevData) => ({
       ...prevData,
       [name]: value,
     }));
   };
 
-  // State for toggling between Sign Up and Log In
-  const [isSignUp, setIsSignUp] = useState(true);
+
 
   // Function to toggle between Sign Up and Log In
   const toggleForm = () => {
@@ -84,8 +104,8 @@ function App() {
       name: '',
       email: '',
       mobile: '',
-      password: '',
-      conpassword: '',
+      password: '', // Change to ''
+      conpassword: '', // Change to ''
     });
     setErrors({});
   };
@@ -115,7 +135,7 @@ function App() {
         {isSignUp && (
           <div>
             <label htmlFor="mobile">Mobile:</label>
-            <input onChange={handleChange} type="text" id="mobile" name="mobile" value={formData.mobile} />
+            <input onChange={handleChange} type="number" id="mobile" name="mobile" value={formData.mobile} />
             {errors.mobile && <p className="error">{errors.mobile}</p>}
           </div>
         )}
@@ -137,14 +157,15 @@ function App() {
         )}
 
         {/* Submit button */}
-        <button type="submit" className="auth-button">
-          {isSignUp ? 'Sign Up' : 'Log In'}
+        <button type="submit" className={buttonClass}>
+          {isSignUp ? 'signup' : 'login'}
         </button>
+
 
         {/* Toggle button to switch between Sign Up and Log In */}
         <div className="button-prop">
           <button onClick={toggleForm} className="button toggle-button">
-            {isSignUp ? 'Login to existing account...' : 'Create new account...'}
+            {isSignUp ? 'Login to an existing account...' : 'Create a new account...'}
           </button>
         </div>
       </form>

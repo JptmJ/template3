@@ -46,6 +46,7 @@ input {
 
 .auth-button:hover {
   background-color: #8a2be2;
+  transition: all .3s ease-in-out;
 }
 
 .toggle-text {
@@ -83,4 +84,18 @@ input {
 .error {
   color: red;
   margin-top: -15px;
+}
+
+.disabled-button {
+  background-color: gray;
+  cursor: not-allowed;
+  width: 100%;
+  padding: 10px;
+  color: white;
+  border: none;
+  border-radius: 3px;
+}
+
+.disabled-button:hover {
+  background-color: grey;
 }
